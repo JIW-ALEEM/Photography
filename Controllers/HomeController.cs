@@ -17,6 +17,37 @@ namespace Photography.Controllers
         {
             return View();
         }
+        public IActionResult about()
+        {
+            return View();
+        }
+
+        public IActionResult gallery()
+        {
+            return View();
+        }
+        
+        public IActionResult blog()
+        {
+            return View();
+        }
+        public IActionResult blog_details()
+        {
+            return View();
+        }
+        public IActionResult contact()
+        {
+            return View();
+        }
+        public IActionResult elements()
+        {
+            return View();
+        }
+   
+        public IActionResult services()
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
         {

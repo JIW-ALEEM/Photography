@@ -17,34 +17,34 @@ namespace Photography.Controllers
         {
             return View();
         }
-        public IActionResult about()
+        public IActionResult About()
         {
             return View();
         }
 
-        public IActionResult gallery()
+        public IActionResult Gallery()
         {
             return View();
         }
         
-        public IActionResult blog()
+        public IActionResult Blog()
         {
             return View();
         }
-        public IActionResult blog_details()
+        public IActionResult Blog_details()
         {
             return View();
         }
-        public IActionResult contact()
+        public IActionResult Contact()
         {
             return View();
         }
-        public IActionResult elements()
+        public IActionResult Elements()
         {
             return View();
         }
    
-        public IActionResult services()
+        public IActionResult Services()
         {
             return View();
         }

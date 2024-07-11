@@ -19,7 +19,12 @@ CREATE TABLE Users (
 CREATE TABLE Plans (
     PlanID INT PRIMARY KEY IDENTITY,
     PlanName NVARCHAR(50) NOT NULL,
-    Description NVARCHAR(MAX) NOT NULL,
+    Description1 NVARCHAR(MAX) NOT NULL,
+	Description2 NVARCHAR(MAX) NOT NULL,
+	Description3 NVARCHAR(MAX) NOT NULL,
+	Description4 NVARCHAR(MAX) NOT NULL,
+	Description5 NVARCHAR(MAX) NOT NULL,
+	Description6 NVARCHAR(MAX) NOT NULL,
     Price DECIMAL(10, 2) NOT NULL
 );
 
@@ -82,3 +87,19 @@ CREATE TABLE Testimonials (
     CreatedAt DATETIME DEFAULT GETDATE()
 );
 
+-- Creating PhotoCategories table
+CREATE TABLE PhotoCategories (
+    CategoryID INT PRIMARY KEY IDENTITY,
+    CategoryName NVARCHAR(50) NOT NULL
+);
+
+-- Creating Photos table
+CREATE TABLE Photos (
+    PhotoID INT PRIMARY KEY IDENTITY,
+    CategoryID INT NOT NULL FOREIGN KEY REFERENCES PhotoCategories(CategoryID) ,
+  
+    PhotoURL NVARCHAR(255) NOT NULL,
+	Phototitle NVARCHAR(255) NOT NULL,
+	Photodesc NVARCHAR(255) NOT NULL,
+    UploadedAt DATETIME DEFAULT GETDATE()
+);

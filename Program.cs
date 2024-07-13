@@ -1,8 +1,19 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Photography.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddDbContext<PhotographyContext>();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
+               op =>
+               {
+                   op.LoginPath = "/Home/Login";
+                   op.AccessDeniedPath = "/Home/Login";
+                   op.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+               }
+               );
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -17,7 +28,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

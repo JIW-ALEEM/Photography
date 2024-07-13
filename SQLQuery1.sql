@@ -1,53 +1,62 @@
-CREATE DATABASE Photography;
 
+CREATE DATABASE Photography;
 USE Photography;
+
+
+CREATE TABLE Role(
+RoleId INT PRIMARY KEY IDENTITY(1,1),
+RoleName VARCHAR(255) NOT NULL
+);
+INSERT INTO ROLE (RoleName) VALUES ('Admin');
+INSERT INTO ROLE (RoleName) VALUES ('User');
 
 -- Creating Users table
 CREATE TABLE Users (
-    UserID INT PRIMARY KEY IDENTITY,
-    Username NVARCHAR(50) UNIQUE NOT NULL,
-    Password NVARCHAR(255) NOT NULL,
-    Email NVARCHAR(100) UNIQUE NOT NULL,
-    FullName NVARCHAR(100) NOT NULL,
-    Phone NVARCHAR(15) NOT NULL,
-    UserRole NVARCHAR(10) NOT NULL DEFAULT 'User',
-    CreatedAt DATETIME DEFAULT GETDATE(),
-    UpdatedAt DATETIME DEFAULT GETDATE()
+    UserID INT PRIMARY KEY IDENTITY(1,1),
+    UserName VARCHAR(150) NOT NULL,
+    UserEmail VARCHAR(100) UNIQUE NOT NULL,
+    UserPassword VARCHAR(255) NOT NULL,
+    UserPhone BIGINT,
+	UserImg VARCHAR(255) NOT NULL DEFAULT 'defult.png',
+	UserPet VARCHAR(110) ,
+	UserRoleId INT
+FOREIGN KEY (UserRoleId) REFERENCES ROLE (RoleId)
 );
+INSERT INTO Users (UserName, UserEmail, UserPassword, UserRoleId) VALUES ('Admin','admin@gmail.com','admin123',1);
 
 -- Creating Plans table
 CREATE TABLE Plans (
     PlanID INT PRIMARY KEY IDENTITY,
-    PlanName NVARCHAR(50) NOT NULL,
-    Description1 NVARCHAR(MAX) NOT NULL,
-	Description2 NVARCHAR(MAX) NOT NULL,
-	Description3 NVARCHAR(MAX) NOT NULL,
-	Description4 NVARCHAR(MAX) NOT NULL,
-	Description5 NVARCHAR(MAX) NOT NULL,
-	Description6 NVARCHAR(MAX) NOT NULL,
-    Price DECIMAL(10, 2) NOT NULL
+    PlanName VARCHAR(50) NOT NULL,
+    list1 VARCHAR(MAX) ,
+	list2 VARCHAR(MAX),
+	list3 VARCHAR(MAX) ,
+	list4 VARCHAR(MAX),
+	list5 VARCHAR(MAX) ,
+	list6 VARCHAR(MAX) ,
+    Price bigint NOT NULL
 );
 
 -- Creating Bookings table
 CREATE TABLE Bookings (
-    BookingID INT PRIMARY KEY IDENTITY,
-    UserID INT NOT NULL FOREIGN KEY REFERENCES Users(UserID) ON DELETE CASCADE,
+    BookingID INT PRIMARY KEY IDENTITY(1,1),
     BookingDate DATE NOT NULL,
     BookingTime TIME NOT NULL,
-    Status NVARCHAR(20) NOT NULL DEFAULT 'Pending',
-    Address NVARCHAR(255) NOT NULL,
-    Contact NVARCHAR(50) NOT NULL,
-    PlanID INT NOT NULL FOREIGN KEY REFERENCES Plans(PlanID),
-    CreatedAt DATETIME DEFAULT GETDATE(),
-    UpdatedAt DATETIME DEFAULT GETDATE()
+    BookingStatus VARCHAR(20) NOT NULL DEFAULT 'Pending',
+    BookingAddress VARCHAR(255) NOT NULL,
+    BookingContact VARCHAR(50) NOT NULL,
+    BookingPlanID INT NOT NULL FOREIGN KEY REFERENCES Plans(PlanID),
+    BookingCreatedAt DATETIME DEFAULT GETDATE(),
+    BookingUpdatedAt DATETIME DEFAULT GETDATE(),
+    BookingUserID INT NOT NULL FOREIGN KEY REFERENCES Users(UserID)
 );
 
 -- Creating Blogs table
 CREATE TABLE Blogs (
     BlogID INT PRIMARY KEY IDENTITY,
-    Title NVARCHAR(100) NOT NULL,
-    Content NVARCHAR(MAX) NOT NULL,
-    AuthorID INT NOT NULL FOREIGN KEY REFERENCES Users(UserID) ON DELETE CASCADE,
+    BlogTitle VARCHAR(100) NOT NULL,
+    BlogContent VARCHAR(MAX) NOT NULL,
+    AuthorName VARCHAR(100) NOT NULL DEFAULT 'Admin',
     CreatedAt DATETIME DEFAULT GETDATE(),
     UpdatedAt DATETIME DEFAULT GETDATE()
 );
@@ -58,8 +67,7 @@ CREATE TABLE Comments (
     BlogID INT NOT NULL FOREIGN KEY REFERENCES Blogs(BlogID),
     UserID INT NOT NULL FOREIGN KEY REFERENCES Users(UserID),
     CommentText VARCHAR(255) NOT NULL,
-    CreatedAt DATETIME DEFAULT GETDATE(),
-    UpdatedAt DATETIME DEFAULT GETDATE()
+    CreatedAt DATETIME DEFAULT GETDATE()
 );
 
 -- Creating Likes table
@@ -73,8 +81,8 @@ CREATE TABLE Likes (
 -- Creating Notifications table
 CREATE TABLE Notifications (
     NotificationID INT PRIMARY KEY IDENTITY,
-    UserID INT NOT NULL FOREIGN KEY REFERENCES Users(UserID) ON DELETE CASCADE,
-    Message NVARCHAR(MAX) NOT NULL,
+    UserID INT NOT NULL FOREIGN KEY REFERENCES Users(UserID),
+    NotificationMessage VARCHAR(MAX) NOT NULL,
     CreatedAt DATETIME DEFAULT GETDATE(),
     IsRead BIT DEFAULT 0
 );
@@ -82,24 +90,26 @@ CREATE TABLE Notifications (
 -- Creating Testimonials table
 CREATE TABLE Testimonials (
     TestimonialID INT PRIMARY KEY IDENTITY,
-    UserID INT NOT NULL FOREIGN KEY REFERENCES Users(UserID) ON DELETE CASCADE,
-    Content NVARCHAR(MAX) NOT NULL,
-    CreatedAt DATETIME DEFAULT GETDATE()
+    UserID INT NOT NULL FOREIGN KEY REFERENCES Users(UserID),
+    Content VARCHAR(MAX) NOT NULL,
+    CreatedAt DATETIME DEFAULT GETDATE(),
+    StarRating INT CHECK (StarRating >= 1 AND StarRating <= 5)
 );
+
 
 -- Creating PhotoCategories table
 CREATE TABLE PhotoCategories (
     CategoryID INT PRIMARY KEY IDENTITY,
-    CategoryName NVARCHAR(50) NOT NULL
+    CategoryName VARCHAR(50) NOT NULL,
+	CategoryPhoto VARCHAR(255) NOT NULL,
 );
 
 -- Creating Photos table
 CREATE TABLE Photos (
     PhotoID INT PRIMARY KEY IDENTITY,
-    CategoryID INT NOT NULL FOREIGN KEY REFERENCES PhotoCategories(CategoryID) ,
-  
-    PhotoURL NVARCHAR(255) NOT NULL,
-	Phototitle NVARCHAR(255) NOT NULL,
-	Photodesc NVARCHAR(255) NOT NULL,
-    UploadedAt DATETIME DEFAULT GETDATE()
+    CategoryID INT NOT NULL FOREIGN KEY REFERENCES PhotoCategories(CategoryID) ,  
+    PhotoURL VARCHAR(255) NOT NULL,
+	PhotoTitle VARCHAR(255) NOT NULL,
+	PhotoDesc VARCHAR(255) NOT NULL,
+    
 );

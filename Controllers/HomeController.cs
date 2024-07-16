@@ -24,6 +24,7 @@ namespace Photography.Controllers
             return View();
         }
 
+        // Signup Action Method
         [HttpPost]
         public IActionResult SignUp(User user, IFormFile UserImg)
         {
@@ -50,26 +51,10 @@ namespace Photography.Controllers
             _db.Add(user);
             _db.SaveChanges();
 
-            TempData["Message"] = "Record Inserted Successfully";
+            TempData["Message"] = "User Registered Successfully..";
             return RedirectToAction(nameof(Login));
         }
 
-
-
-        // Signup Action Method
-        //[HttpPost]
-        //public IActionResult SignUp(User user)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        user.UserRoleId = 2;
-        //        _db.Add(user);
-        //        _db.SaveChanges();
-        //        TempData["Message"] = "User Registered Successfully..";
-        //        return RedirectToAction(nameof(Login));
-        //    }
-        //    return View();
-        //}
 
         // Login Action Method
         public IActionResult Login(User user)

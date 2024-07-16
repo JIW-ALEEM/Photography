@@ -92,17 +92,30 @@
                 <div class="col-sm-5">
                     <div class="user-area dropdown float-right">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="user-avatar rounded-circle" src="images/admin.jpg" alt="User Avatar">
+                        @using System.Security.Claims;
+                        @{
+                            string userName = User.FindFirst(ClaimTypes.Name)?.Value;
+                            string userImg = User.FindFirst("UserImg")?.Value;
+                        }
+                            <img class="user-avatar rounded-circle" src="@userImg" alt="User Avatar">
                         </a>
 
                         <div class="user-menu dropdown-menu">
-                            <a class="nav-link" href="#"><i class="fa fa-user"></i> My Profile</a>
+                        @if (userName != null)
+                        {
+
+                                <a class="nav-link" asp-controller="Admin">
+                                <i class="fa fa-user"></i> @userName
+                                </a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Logout"><i class="fa fa-power-off"></i>Logout</a>
+                        }
+                        @* <a class="nav-link" href="#"> My Profile</a>
 
                             <a class="nav-link" href="#"><i class="fa fa-user"></i> Notifications <span class="count">13</span></a>
 
                             <a class="nav-link" href="#"><i class="fa fa-cog"></i> Settings</a>
 
-                            <a class="nav-link" href="#"><i class="fa fa-power-off"></i> Logout</a>
+                            <a class="nav-link" href="#"><i class="fa fa-power-off"></i> Logout</a> *@
                         </div>
                     </div>
 

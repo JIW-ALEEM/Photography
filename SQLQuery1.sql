@@ -17,12 +17,12 @@ CREATE TABLE Users (
     UserEmail VARCHAR(100) UNIQUE NOT NULL,
     UserPassword VARCHAR(255) NOT NULL,
     UserPhone BIGINT,
-	UserImg VARCHAR(255) NOT NULL DEFAULT 'defult.png',
+	UserImg VARCHAR(255),
 	UserPet VARCHAR(110) ,
 	UserRoleId INT
 FOREIGN KEY (UserRoleId) REFERENCES ROLE (RoleId)
 );
-INSERT INTO Users (UserName, UserEmail, UserPassword, UserRoleId) VALUES ('Admin','admin@gmail.com','admin123',1);
+INSERT INTO Users (UserName, UserEmail, UserImg, UserPassword, UserRoleId) VALUES ('Admin','admin@gmail.com', 'img/User/default.png','admin123',1);
 
 -- Creating Plans table
 CREATE TABLE Plans (

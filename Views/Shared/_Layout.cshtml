@@ -64,8 +64,32 @@
                                                     <li><a asp-controller="Home" asp-action="Elements">Element</a></li>
                                                 </ul>
                                             </li>
-                                            <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
-                                            <li><a asp-controller="Home" asp-action="plan">Plans</a></li>
+                                           @*  <li><a asp-controller="Home" asp-action="plan">Plans</a></li> *@
+                                            @using System.Security.Claims;
+                                            @{
+                                                string userName = User.FindFirst(ClaimTypes.Name)?.Value;
+                                            }
+                                            @if (userName != null)
+                                            {
+                                                <li class="nav-item">
+                                                    <a class="nav-link" asp-controller="Home">
+                                                        @userName
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Logout">Logout</a>
+                                                </li>
+                                            }
+
+                                            else
+                                            {
+                                                <li class="nav-item">
+                                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="SignUp">Sign Up</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Login">Login</a>
+                                                </li>
+                                            }
                                         </ul>
                                     </nav>
                                 </div>

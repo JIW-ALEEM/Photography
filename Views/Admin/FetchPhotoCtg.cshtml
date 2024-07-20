@@ -181,6 +181,9 @@
                                         <tr>
                                             <th>Category Name</th>
                                             <th>Category Image</th>
+                                            <th>Update</th>
+                                            <th>Delete</th>
+                                            
                                             
                                         </tr>
                                     </thead>
@@ -190,6 +193,8 @@
                                         <tr>
                                             <td>@item.CategoryName</td>
                                         <td><img src="~/@item.CategoryPhoto" class="d-flex m-auto" width="auto" height="auto" alt="..."></td>
+                                            <td><a class="btn btn-success" asp-action="UpdatePhotoCtg" asp-controller="Admin" asp-route-id="@item.CategoryId">Update</a></td>
+                                            <td><a class="btn btn-danger" asp-action="DeletePhotoCtg" asp-controller="Admin" asp-route-id="@item.CategoryId">Delete</a></td>
                                         </tr>
                                 }
                                     </tbody>

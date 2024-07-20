@@ -27,7 +27,7 @@
                             </div>
                                 <div class="form-group has-success">
                                     <label for="cc-name" class="control-label mb-1">Select Category Image</label>
-                                    <input type="file" class="form-control cc-image valid m-0 p-1" asp-for="CategoryPhoto" required accept="image/*" aria-required="true" aria-invalid="false" aria-describedby="cc-image-error" onchange="previewImage(event)">
+                                    <input type="file" class="form-control cc-image valid m-0 p-1" asp-for="CategoryPhoto" required accept="image/*" onchange="previewImage(event)">
                                     <span class="help-block field-validation-valid" data-valmsg-for="cc-image" data-valmsg-replace="true"></span>
                                     <img id="image-preview" src="" alt="Image Preview" style="display:none; margin-top:10px; max-width:50%; height:auto;">
                                 </div>

@@ -7,32 +7,23 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Admin\FetchPhotoCtg.cshtml" />
+    <Compile Remove="wwwroot\img\PhotoCategory\**" />
+    <Content Remove="wwwroot\img\PhotoCategory\**" />
+    <EmbeddedResource Remove="wwwroot\img\PhotoCategory\**" />
+    <None Remove="wwwroot\img\PhotoCategory\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.20" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.20">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.12" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Admin\FetchPhotoCtg.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Views\Admin\FetchPhotoCtg.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Views\Admin\FetchPhotoCtg.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\img\PhotoCategory\" />
+    <Folder Include="wwwroot\img\Category\" />
   </ItemGroup>
 
 </Project>

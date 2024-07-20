@@ -28,17 +28,17 @@ namespace Photography.Controllers
 
         //PhotoCategory Action Method
         [HttpPost]
-        public IActionResult PhotoCtg(PhotoCategory Ctg, IFormFile CtgImg)
+        public IActionResult PhotoCtg(PhotoCategory Ctg, IFormFile CategoryPhoto)
         {
 
-            if (CtgImg != null && CtgImg.Length > 0)
+            if (CategoryPhoto != null && CategoryPhoto.Length > 0)
             {
-                var filename = Path.GetFileName(CtgImg.FileName);
-                string folderPath = Path.Combine("wwwroot/img/PhotoCategory", filename);
-                var dbpath = Path.Combine("img/PhotoCategory", filename);
+                var filename = Path.GetFileName(CategoryPhoto.FileName);
+                string folderPath = Path.Combine("wwwroot/img/Category", filename);
+                var dbpath = Path.Combine("img/Category", filename);
                 using (var stream = new FileStream(folderPath, FileMode.Create))
                 {
-                    CtgImg.CopyTo(stream);
+                    CategoryPhoto.CopyTo(stream);
                 }
                 Ctg.CategoryPhoto = dbpath;
 

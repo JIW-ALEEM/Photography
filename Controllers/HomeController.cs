@@ -114,6 +114,7 @@ namespace Photography.Controllers
         }
         public IActionResult Index()
         {
+            ViewBag.Category = _db.PhotoCategories.ToList();
             return View();
         }
         public IActionResult About()

@@ -20,74 +20,77 @@
     <section class="home-blog-area section-padding30">
         <div class="container">
             <div class="row">
-                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-team mb-60">
-                        <div class="team-img">
-                            <img src="~/img/gallery/blog01.png">
-                        </div>
-                        <div class="team-caption">
-                            <h3><a asp-controller="Home" asp-action="services">Creative Photography</a></h3>
-                            <p>Duis aute irure dolor in reprehenderit in voluptate velit.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-team mb-60">
-                        <div class="team-img">
-                            <img src="~/img/gallery/blog02.png">
-                        </div>
-                        <div class="team-caption">
-                            <h3><a asp-controller="Home" asp-action="services">Wedding Photography</a></h3>
-                            <p>Duis aute irure dolor in reprehenderit in voluptate velit.</p>
+                @foreach (var Category1 in ViewBag.Category)
+                {
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                        <div class="single-team mb-30">
+                            <div class="team-img">
+                                <img src="~/@Category1.CategoryPhoto">
+                            </div>
+                            <div class="team-caption">
+                                <h3><a asp-controller="Home" asp-action="services">@Category1.CategoryName</a></h3>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-team mb-60">
-                        <div class="team-img">
-                            <img src="~/img/gallery/blog03.png">
-                        </div>
-                        <div class="team-caption">
-                            <h3><a asp-controller="Home" asp-action="services">Nature Photography</a></h3>
-                            <p>Duis aute irure dolor in reprehenderit in voluptate velit.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-team mb-60">
-                        <div class="team-img">
-                            <img src="~/img/gallery/blog03.png">
-                        </div>
-                        <div class="team-caption">
-                            <h3><a asp-controller="Home" asp-action="services">Nature Photography</a></h3>
-                            <p>Duis aute irure dolor in reprehenderit in voluptate velit.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-team mb-60">
-                        <div class="team-img">
-                            <img src="~/img/gallery/blog02.png">
-                        </div>
-                        <div class="team-caption">
-                            <h3><a asp-controller="Home" asp-action="services">Wedding Photography</a></h3>
-                            <p>Duis aute irure dolor in reprehenderit in voluptate velit.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-team mb-60">
-                        <div class="team-img">
-                            <img src="~/img/gallery/blog01.png">
-                        </div>
-                        <div class="team-caption">
-                            <h3><a asp-controller="Home" asp-action="services">Creative Photography</a></h3>
-                            <p>Duis aute irure dolor in reprehenderit in voluptate velit.</p>
+                }
+            </div>
+        </div>
+    </section>
+
+
+
+    <div class="slider-area">
+        <div class="slider-height2 d-flex align-items-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="hero-cap hero-cap2 text-center">
+                            <h2>Plans</h2>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+
+
+    <section class="home-blog-area section-padding30">
+        <div class="container">
+            <div class="row">
+                   @foreach (var Plan in ViewBag.Plans)
+                {
+                    <div class="outer col-12 col-lg-4 col-md-6 col-sm-12">
+                        <div class="dot"></div>
+                        <div class="card">
+                            <div class="ray"></div>
+                            <div>
+                                <h5 class="card-title text-center" style="margin-bottom: 1rem; font-size: 33px; font-weight: 700;">@Plan.PlanName</h5>
+
+                                <p style="color : white" class="text-center"><span>PKR</span> <span style="font-size: 47px; font-weight: 700;">@Plan.Price</span></p>
+                                <p style="color : white" class="text-center fs-5" style="padding-bottom: inherit">500+ Photos <span>+ SD card</span></p>
+                                <button class="btn-large" >Buy</button>
+                                <hr>
+                                <ul style="line-height: 2;">
+                                    <li>@Plan.List1</li>
+                                    <li>@Plan.List2</li>
+                                    <li>@Plan.List3</li>
+                                    <li>@Plan.List4</li>
+                                    <li>@Plan.List5</li>
+                                    <li>@Plan.List6</li>
+
+                                </ul>
+                                <p class="text-center" style="color: #23c18a; font-size: 18px;">Photography </p>
+                            </div>
+                            <div class="line topl"></div>
+                            <div class="line leftl"></div>
+                            <div class="line bottoml"></div>
+                            <div class="line rightl"></div>
+                        </div>
+                    </div>
+                }
+
+                </div>
+            </div>
     </section>
 
 </main>

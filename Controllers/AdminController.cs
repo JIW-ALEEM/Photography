@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 using NuGet.Protocol.Plugins;
@@ -133,5 +134,121 @@ namespace Photography.Controllers
             TempData["UpdateMessage"] = file != null ? "Record Updated Successfully" : "Record Updated Successfully with Previous Image";
             return RedirectToAction(nameof(FetchPhotoCtg));
         }
+
+
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public IActionResult Photos()
+        {
+            ViewBag.PhotoCtg = new SelectList(db.PhotoCategories, "CategoryId", "CategoryName");
+            return View();
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public IActionResult Photos(Photo Img0, IFormFile PhotoUrl)
+        {
+
+            if (PhotoUrl != null && PhotoUrl.Length > 0)
+            {
+                var filename = Path.GetFileName(PhotoUrl.FileName);
+                string folderPath = Path.Combine("wwwroot/img/Photo", filename);
+                var dbpath = Path.Combine("img/Photo", filename);
+                using (var stream = new FileStream(folderPath, FileMode.Create))
+                {
+                    PhotoUrl.CopyTo(stream);
+                }
+                Img0.PhotoUrl = dbpath;
+
+                if (ModelState.IsValid) // validation
+                {
+                    db.Add(Img0);
+                    db.SaveChanges();
+                    TempData["Message"] = "Record Inserted Successfully";
+                    return RedirectToAction(nameof(FetchPhoto));
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("Img", "Category Image field is Required");
+            }
+            return View();
+        }
+        [Authorize(Roles = "Admin")]
+        public IActionResult FetchPhoto()
+        {
+            return View(db.Photos.ToList());
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult DeletePhoto(int? id)
+        {
+            var data = db.Photos.FirstOrDefault(x => x.PhotoId == id);
+            db.Remove(data);
+            db.SaveChanges();
+            TempData["DelMessage"] = "Record Deleted Successfully";
+            return RedirectToAction(nameof(FetchPhoto));
+        }
+
+        // Update Photo Ctg view
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public IActionResult UpdatePhoto(int? id)
+        {
+            var data = db.Photos.FirstOrDefault(x => x.PhotoId == id);
+            return View(data);
+        }
+
+        // Update Photo Ctg action method
+        [HttpPost]
+        public IActionResult UpdatePhoto(Photo UpdatePhoto1, IFormFile file)
+        {
+            if (file != null && file.Length > 0)
+            {
+                Guid r = Guid.NewGuid();
+                var fileName = Path.GetFileNameWithoutExtension(file.FileName);
+                var extensionn = file.ContentType.ToLower();
+                var exten_presize = extensionn.Substring(6);
+
+                var unique_name = fileName + r + "." + exten_presize;
+                string imagesFolder = Path.Combine(HttpContext.Request.PathBase.Value, "wwwroot/img/Photo");
+                string filePath = Path.Combine(imagesFolder, unique_name);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+                var dbPath = Path.Combine("img/Photo", unique_name);
+                UpdatePhoto1.PhotoUrl = dbPath;
+                db.Update(UpdatePhoto1);
+                db.SaveChanges();
+                TempData["UpdateMessage"] = "Record Updated Successfully";
+                return RedirectToAction(nameof(FetchPhotoCtg));
+            }
+            else
+            {
+                var existingImg = db.Photos.FirstOrDefault(p => p.PhotoId == UpdatePhoto1.PhotoId);
+                if (existingImg != null)
+                {
+                    UpdatePhoto1.PhotoUrl = existingImg.PhotoUrl;
+
+                    // Detach existing tracked entity
+                    db.Entry(existingImg).State = EntityState.Detached;
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Product not found";
+                    return RedirectToAction(nameof(FetchPhoto));
+                }
+            }
+
+            // Update entity state
+            db.Update(UpdatePhoto1);
+            db.SaveChanges();
+
+            TempData["UpdateMessage"] = file != null ? "Record Updated Successfully" : "Record Updated Successfully with Previous Image";
+            return RedirectToAction(nameof(FetchPhoto));
+        }
+
     }
 }

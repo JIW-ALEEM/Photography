@@ -146,14 +146,13 @@ namespace Photography.Controllers
    
         public IActionResult Services()
         {
+            ViewBag.Category = _db.PhotoCategories.ToList();
+            ViewBag.Plans = _db.Plans.ToList();
+
             return View();
         }
 
         public IActionResult Privacy()
-        {
-            return View();
-        }
-        public IActionResult Plan()
         {
             return View();
         }

@@ -107,7 +107,7 @@ CREATE TABLE PhotoCategories (
 -- Creating Photos table
 CREATE TABLE Photos (
     PhotoID INT PRIMARY KEY IDENTITY,
-    CategoryID INT NOT NULL FOREIGN KEY REFERENCES PhotoCategories(CategoryID) ,  
+    PhotoCategoryId INT NOT NULL FOREIGN KEY REFERENCES PhotoCategories(CategoryID) ,  
     PhotoURL VARCHAR(255) NOT NULL,
 	PhotoTitle VARCHAR(255) NOT NULL,
 	PhotoDesc VARCHAR(255) NOT NULL,

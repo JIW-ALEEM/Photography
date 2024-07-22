@@ -17,7 +17,7 @@ public partial class Blog
 
     public DateTime? UpdatedAt { get; set; }
 
-    public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
+    public virtual ICollection<Comment> Comments { get; } = new List<Comment>();
 
-    public virtual ICollection<Like> Likes { get; set; } = new List<Like>();
+    public virtual ICollection<Like> Likes { get; } = new List<Like>();
 }

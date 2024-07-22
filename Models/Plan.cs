@@ -23,5 +23,5 @@ public partial class Plan
 
     public long Price { get; set; }
 
-    public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
+    public virtual ICollection<Booking> Bookings { get; } = new List<Booking>();
 }

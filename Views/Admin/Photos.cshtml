@@ -1,4 +1,4 @@
-﻿@model Photography.Models.PhotoCategory;
+﻿@model Photography.Models.Photo;
 @{
     Layout = "_AdminLayout";
 }
@@ -159,7 +159,7 @@
                     <ol class="breadcrumb text-right">
                         <li><a href="#">Dashboard</a></li>
                         <li><a href="#">Table</a></li>
-                        <li class="active">Add Photo Category</li>
+                        <li class="active">Add Photo</li>
                     </ol>
                 </div>
             </div>
@@ -168,69 +168,80 @@
     <div class="content mt-3">
         <div class="animated fadeIn">
 
-    <div class="row mt-5 pt-2">
-    <div class="col-lg-3"></div>
-    <div class="col-lg-6 mt-5">
-        <div class="card mt-5">
-            <div class="card-header">
-                <strong class="card-title">Add </strong>
-            </div>
-            <div class="card-body">
-
-                <div id="pay-invoice">
-                    <div class="card-body">
-                        <div class="card-title">
-                                <h3 class="text-center">Photo Category</h3>
+            <div class="row mt-5 pt-2">
+                <div class="col-lg-3"></div>
+                <div class="col-lg-6 mt-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong class="card-title">Add </strong>
                         </div>
-                        <hr>
-                        <form method="post" enctype="multipart/form-data">
-                                @Html.AntiForgeryToken()
-                            <div class="form-group">
-                                <label for="cc-payment" class="control-label mb-1">Category Name</label>
-                                <input type="text" asp-for="CategoryName" class="form-control" aria-required="true" required aria-invalid="false" >
-                                            <span asp-validation-for="CategoryName" class="text-danger"></span>
-                            </div>
-                                <div class="form-group has-success">
-                                    <label for="cc-name" class="control-label mb-1">Select Category Image</label>
-                                    <input type="file" class="form-control cc-image valid m-0 p-1" asp-for="CategoryPhoto" required accept="image/*" onchange="previewImage(event)">
-                                    <span class="help-block field-validation-valid" data-valmsg-for="cc-image" data-valmsg-replace="true"></span>
-                                    <img id="image-preview" src="" alt="Image Preview" style="display:none; margin-top:10px; max-width:50%; height:auto;">
+                        <div class="card-body">
+
+                            <div id="pay-invoice">
+                                <div class="card-body">
+                                    <div class="card-title">
+                                        <h3 class="text-center">Photo</h3>
+                                    </div>
+                                    <hr>
+                                    <form method="post" enctype="multipart/form-data">
+                                        @Html.AntiForgeryToken()
+                                        <div class="form-group">
+                                            <label for="cc-payment" class="control-label mb-1">Photo Name</label>
+                                            <input type="text" asp-for="PhotoTitle" class="form-control" aria-required="true" required aria-invalid="false">
+                                            <span asp-validation-for="PhotoTitle" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group has-success">
+                                            <label for="cc-name" class="control-label mb-1">Select Photo</label>
+                                            <input type="file" class="form-control cc-image valid m-0 p-1" asp-for="PhotoUrl" required accept="image/*" onchange="previewImage(event)">
+                                            <span class="help-block field-validation-valid" data-valmsg-for="cc-image" data-valmsg-replace="true"></span>
+                                            <img id="image-preview" src="" alt="Image Preview" style="display:none; margin-top:10px; max-width:50%; height:auto;">
+                                        </div>
+                                        <div class="form-group">
+                                         <label for="select" class="form-control-label">Select</label>
+                                                <select id="select" asp-items="ViewBag.PhotoCtg" asp-for="PhotoCategoryId" required class="form-control">
+                                                <option selected>Select Photo Category </option>
+                                                </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="cc-payment" class="control-label mb-1">Photo Description</label>
+                                            <input type="text" asp-for="PhotoDesc" class="form-control" aria-required="true" required aria-invalid="false">
+                                        </div>
+                                        <div>
+                                            <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
+                                                Add
+                                                @*                                     <span id="payment-button-amount"> Add</span>
+                                                <span id="payment-button-sending" style="display:none;">Adding…</span> *@
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
-                            <div>
-                                    <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
-                                        Add
-@*                                     <span id="payment-button-amount"> Add</span>
-                                    <span id="payment-button-sending" style="display:none;">Adding…</span> *@
-                                </button>
                             </div>
-                        </form>
+
+                        </div>
                     </div>
+
                 </div>
-
+                <div class="col-lg-3"></div>
             </div>
+
         </div>
-
     </div>
-        <div class="col-lg-3"></div>
-</div>
 
-    </div>
-</div>
-
-<script>
-    function previewImage(event) {
-        var file = event.target.files[0];
-        if (file && file.type.startsWith('image/')) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                var preview = document.getElementById('image-preview');
-                preview.src = e.target.result;
-                preview.style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-        } else {
-            alert('Please select a valid image file.');
-            event.target.value = ''; 
+    <script>
+        function previewImage(event) {
+            var file = event.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var preview = document.getElementById('image-preview');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                alert('Please select a valid image file.');
+                event.target.value = '';
+            }
         }
-    }
-</script>
+    </script>

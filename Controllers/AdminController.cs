@@ -12,11 +12,11 @@ namespace Photography.Controllers
 {
     public class AdminController : Controller
     {
-        private readonly PhotographyContext db;
+        private readonly PhotographyContext _db;
 
         public AdminController(PhotographyContext db)
         {
-            this.db = db;
+            this._db = db;
         }
         [Authorize(Roles = "Admin")]
         public IActionResult AdminIndex()
@@ -48,8 +48,8 @@ namespace Photography.Controllers
 
                 if (ModelState.IsValid) // validation
                 {
-                    db.Add(Ctg);
-                    db.SaveChanges();
+                    _db.Add(Ctg);
+                    _db.SaveChanges();
                     TempData["Message"] = "Record Inserted Successfully";
                     return RedirectToAction(nameof(FetchPhotoCtg));
                 }
@@ -63,15 +63,15 @@ namespace Photography.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult FetchPhotoCtg()
         {
-            return View(db.PhotoCategories.ToList());
+            return View(_db.PhotoCategories.ToList());
         }
 
         [Authorize(Roles = "Admin")]
         public IActionResult DeletePhotoCtg(int? id)
         {
-            var data = db.PhotoCategories.FirstOrDefault(x => x.CategoryId == id);
-            db.Remove(data);
-            db.SaveChanges();
+            var data = _db.PhotoCategories.FirstOrDefault(x => x.CategoryId == id);
+            _db.Remove(data);
+            _db.SaveChanges();
             TempData["DelMessage"] = "Record Deleted Successfully";
             return RedirectToAction(nameof(FetchPhotoCtg));
         }
@@ -81,7 +81,7 @@ namespace Photography.Controllers
         [HttpGet]
         public IActionResult UpdatePhotoCtg(int? id)
         {
-            var data = db.PhotoCategories.FirstOrDefault(x => x.CategoryId == id);
+            var data = _db.PhotoCategories.FirstOrDefault(x => x.CategoryId == id);
             return View(data);
         }
 
@@ -105,20 +105,20 @@ namespace Photography.Controllers
                 }
                 var dbPath = Path.Combine("img/Category", unique_name);
                 UpdatePhotoCtg1.CategoryPhoto = dbPath;
-                db.Update(UpdatePhotoCtg1);
-                db.SaveChanges();
+                _db.Update(UpdatePhotoCtg1);
+                _db.SaveChanges();
                 TempData["UpdateMessage"] = "Record Updated Successfully";
                 return RedirectToAction(nameof(FetchPhotoCtg));
             }
             else
             {
-                var existingctg = db.PhotoCategories.FirstOrDefault(p => p.CategoryId == UpdatePhotoCtg1.CategoryId);
+                var existingctg = _db.PhotoCategories.FirstOrDefault(p => p.CategoryId == UpdatePhotoCtg1.CategoryId);
                 if (existingctg != null)
                 {
                     UpdatePhotoCtg1.CategoryPhoto = existingctg.CategoryPhoto;
 
                     // Detach existing tracked entity
-                    db.Entry(existingctg).State = EntityState.Detached;
+                    _db.Entry(existingctg).State = EntityState.Detached;
                 }
                 else
                 {
@@ -128,8 +128,8 @@ namespace Photography.Controllers
             }
 
             // Update entity state
-            db.Update(UpdatePhotoCtg1);
-            db.SaveChanges();
+            _db.Update(UpdatePhotoCtg1);
+            _db.SaveChanges();
 
             TempData["UpdateMessage"] = file != null ? "Record Updated Successfully" : "Record Updated Successfully with Previous Image";
             return RedirectToAction(nameof(FetchPhotoCtg));
@@ -141,13 +141,13 @@ namespace Photography.Controllers
         [HttpGet]
         public IActionResult Photos()
         {
-            ViewBag.PhotoCtg = new SelectList(db.PhotoCategories, "CategoryId", "CategoryName");
+            ViewBag.PhotoCtg = new SelectList(_db.PhotoCategories, "CategoryId", "CategoryName");
             return View();
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public IActionResult Photos(Photo Img0, IFormFile PhotoUrl)
+        public IActionResult Photos(Photo Img2, IFormFile PhotoUrl)
         {
 
             if (PhotoUrl != null && PhotoUrl.Length > 0)
@@ -159,15 +159,13 @@ namespace Photography.Controllers
                 {
                     PhotoUrl.CopyTo(stream);
                 }
-                Img0.PhotoUrl = dbpath;
-
-                if (ModelState.IsValid) // validation
-                {
-                    db.Add(Img0);
-                    db.SaveChanges();
+                Img2.PhotoUrl = dbpath;
+             
+                    _db.Add(Img2);
+                    _db.SaveChanges();
                     TempData["Message"] = "Record Inserted Successfully";
                     return RedirectToAction(nameof(FetchPhoto));
-                }
+                
             }
             else
             {
@@ -178,15 +176,15 @@ namespace Photography.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult FetchPhoto()
         {
-            return View(db.Photos.ToList());
+            return View(_db.Photos.Include("Category").ToList());
         }
 
         [Authorize(Roles = "Admin")]
         public IActionResult DeletePhoto(int? id)
         {
-            var data = db.Photos.FirstOrDefault(x => x.PhotoId == id);
-            db.Remove(data);
-            db.SaveChanges();
+            var data = _db.Photos.FirstOrDefault(x => x.PhotoId == id);
+            _db.Remove(data);
+            _db.SaveChanges();
             TempData["DelMessage"] = "Record Deleted Successfully";
             return RedirectToAction(nameof(FetchPhoto));
         }
@@ -196,7 +194,8 @@ namespace Photography.Controllers
         [HttpGet]
         public IActionResult UpdatePhoto(int? id)
         {
-            var data = db.Photos.FirstOrDefault(x => x.PhotoId == id);
+            var data = _db.Photos.FirstOrDefault(x => x.PhotoId == id);
+            ViewBag.PhotoCtg = new SelectList(_db.PhotoCategories, "CategoryId", "CategoryName");
             return View(data);
         }
 
@@ -220,20 +219,20 @@ namespace Photography.Controllers
                 }
                 var dbPath = Path.Combine("img/Photo", unique_name);
                 UpdatePhoto1.PhotoUrl = dbPath;
-                db.Update(UpdatePhoto1);
-                db.SaveChanges();
+                _db.Update(UpdatePhoto1);
+                _db.SaveChanges();
                 TempData["UpdateMessage"] = "Record Updated Successfully";
-                return RedirectToAction(nameof(FetchPhotoCtg));
+                return RedirectToAction(nameof(FetchPhoto));
             }
             else
             {
-                var existingImg = db.Photos.FirstOrDefault(p => p.PhotoId == UpdatePhoto1.PhotoId);
+                var existingImg = _db.Photos.FirstOrDefault(p => p.PhotoId == UpdatePhoto1.PhotoId);
                 if (existingImg != null)
                 {
                     UpdatePhoto1.PhotoUrl = existingImg.PhotoUrl;
 
                     // Detach existing tracked entity
-                    db.Entry(existingImg).State = EntityState.Detached;
+                    _db.Entry(existingImg).State = EntityState.Detached;
                 }
                 else
                 {
@@ -243,8 +242,8 @@ namespace Photography.Controllers
             }
 
             // Update entity state
-            db.Update(UpdatePhoto1);
-            db.SaveChanges();
+            _db.Update(UpdatePhoto1);
+            _db.SaveChanges();
 
             TempData["UpdateMessage"] = file != null ? "Record Updated Successfully" : "Record Updated Successfully with Previous Image";
             return RedirectToAction(nameof(FetchPhoto));

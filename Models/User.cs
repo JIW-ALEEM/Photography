@@ -8,7 +8,8 @@ public partial class User
 {
     public int UserId { get; set; }
 
-    [Required]
+    
+    [Required] 
     public string UserName { get; set; } = null!;
     [Required]
     public string UserEmail { get; set; } = null!;

@@ -46,7 +46,7 @@ public partial class PhotographyContext : DbContext
     {
         modelBuilder.Entity<Blog>(entity =>
         {
-            entity.HasKey(e => e.BlogId).HasName("PK__Blogs__54379E508E8B5568");
+            entity.HasKey(e => e.BlogId).HasName("PK__Blogs__54379E50A55FA570");
 
             entity.Property(e => e.BlogId).HasColumnName("BlogID");
             entity.Property(e => e.AuthorName)
@@ -67,7 +67,7 @@ public partial class PhotographyContext : DbContext
 
         modelBuilder.Entity<Booking>(entity =>
         {
-            entity.HasKey(e => e.BookingId).HasName("PK__Bookings__73951ACDF4F2A4CC");
+            entity.HasKey(e => e.BookingId).HasName("PK__Bookings__73951ACD49256F30");
 
             entity.Property(e => e.BookingId).HasColumnName("BookingID");
             entity.Property(e => e.BookingAddress)
@@ -93,17 +93,17 @@ public partial class PhotographyContext : DbContext
             entity.HasOne(d => d.BookingPlan).WithMany(p => p.Bookings)
                 .HasForeignKey(d => d.BookingPlanId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Bookings__Bookin__52593CB8");
+                .HasConstraintName("FK__Bookings__Bookin__693CA210");
 
             entity.HasOne(d => d.BookingUser).WithMany(p => p.Bookings)
                 .HasForeignKey(d => d.BookingUserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Bookings__Bookin__5535A963");
+                .HasConstraintName("FK__Bookings__Bookin__6A30C649");
         });
 
         modelBuilder.Entity<Comment>(entity =>
         {
-            entity.HasKey(e => e.CommentId).HasName("PK__Comments__C3B4DFAAC650FE03");
+            entity.HasKey(e => e.CommentId).HasName("PK__Comments__C3B4DFAAA4C1A5A9");
 
             entity.Property(e => e.CommentId).HasColumnName("CommentID");
             entity.Property(e => e.BlogId).HasColumnName("BlogID");
@@ -118,17 +118,17 @@ public partial class PhotographyContext : DbContext
             entity.HasOne(d => d.Blog).WithMany(p => p.Comments)
                 .HasForeignKey(d => d.BlogId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Comments__BlogID__5CD6CB2B");
+                .HasConstraintName("FK__Comments__BlogID__6B24EA82");
 
             entity.HasOne(d => d.User).WithMany(p => p.Comments)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Comments__UserID__5DCAEF64");
+                .HasConstraintName("FK__Comments__UserID__6C190EBB");
         });
 
         modelBuilder.Entity<Like>(entity =>
         {
-            entity.HasKey(e => e.LikeId).HasName("PK__Likes__A2922CF4DC0D9CFB");
+            entity.HasKey(e => e.LikeId).HasName("PK__Likes__A2922CF4D8864D75");
 
             entity.Property(e => e.LikeId).HasColumnName("LikeID");
             entity.Property(e => e.BlogId).HasColumnName("BlogID");
@@ -140,17 +140,17 @@ public partial class PhotographyContext : DbContext
             entity.HasOne(d => d.Blog).WithMany(p => p.Likes)
                 .HasForeignKey(d => d.BlogId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Likes__BlogID__619B8048");
+                .HasConstraintName("FK__Likes__BlogID__6D0D32F4");
 
             entity.HasOne(d => d.User).WithMany(p => p.Likes)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Likes__UserID__628FA481");
+                .HasConstraintName("FK__Likes__UserID__6E01572D");
         });
 
         modelBuilder.Entity<Notification>(entity =>
         {
-            entity.HasKey(e => e.NotificationId).HasName("PK__Notifica__20CF2E32EB7AD6E4");
+            entity.HasKey(e => e.NotificationId).HasName("PK__Notifica__20CF2E324084C4C3");
 
             entity.Property(e => e.NotificationId).HasColumnName("NotificationID");
             entity.Property(e => e.CreatedAt)
@@ -163,14 +163,15 @@ public partial class PhotographyContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.Notifications)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Notificat__UserI__66603565");
+                .HasConstraintName("FK__Notificat__UserI__6EF57B66");
         });
 
         modelBuilder.Entity<Photo>(entity =>
         {
-            entity.HasKey(e => e.PhotoId).HasName("PK__Photos__21B7B5826FC0C879");
+            entity.HasKey(e => e.PhotoId).HasName("PK__Photos__21B7B58229483FB9");
 
             entity.Property(e => e.PhotoId).HasColumnName("PhotoID");
+            entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
             entity.Property(e => e.PhotoDesc)
                 .HasMaxLength(255)
                 .IsUnicode(false);
@@ -182,15 +183,15 @@ public partial class PhotographyContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("PhotoURL");
 
-            entity.HasOne(d => d.PhotoCategory).WithMany(p => p.Photos)
-                .HasForeignKey(d => d.PhotoCategoryId)
+            entity.HasOne(d => d.Category).WithMany(p => p.Photos)
+                .HasForeignKey(d => d.CategoryId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Photos__PhotoCat__71D1E811");
+                .HasConstraintName("FK__Photos__Category__6FE99F9F");
         });
 
         modelBuilder.Entity<PhotoCategory>(entity =>
         {
-            entity.HasKey(e => e.CategoryId).HasName("PK__PhotoCat__19093A2BF7B5FE9A");
+            entity.HasKey(e => e.CategoryId).HasName("PK__PhotoCat__19093A2B577BD085");
 
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
             entity.Property(e => e.CategoryName)
@@ -203,7 +204,7 @@ public partial class PhotographyContext : DbContext
 
         modelBuilder.Entity<Plan>(entity =>
         {
-            entity.HasKey(e => e.PlanId).HasName("PK__Plans__755C22D7F33C9517");
+            entity.HasKey(e => e.PlanId).HasName("PK__Plans__755C22D76E92E26B");
 
             entity.Property(e => e.PlanId).HasColumnName("PlanID");
             entity.Property(e => e.List1)
@@ -231,7 +232,7 @@ public partial class PhotographyContext : DbContext
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.RoleId).HasName("PK__Role__8AFACE1A9C540423");
+            entity.HasKey(e => e.RoleId).HasName("PK__Role__8AFACE1AB555DDF6");
 
             entity.ToTable("Role");
 
@@ -242,7 +243,7 @@ public partial class PhotographyContext : DbContext
 
         modelBuilder.Entity<Testimonial>(entity =>
         {
-            entity.HasKey(e => e.TestimonialId).HasName("PK__Testimon__91A23E53286A8762");
+            entity.HasKey(e => e.TestimonialId).HasName("PK__Testimon__91A23E534FD784A1");
 
             entity.Property(e => e.TestimonialId).HasColumnName("TestimonialID");
             entity.Property(e => e.Content).IsUnicode(false);
@@ -254,14 +255,14 @@ public partial class PhotographyContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.Testimonials)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Testimoni__UserI__6B24EA82");
+                .HasConstraintName("FK__Testimoni__UserI__70DDC3D8");
         });
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CCAC0E14C067");
+            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CCAC4535BCF1");
 
-            entity.HasIndex(e => e.UserEmail, "UQ__Users__08638DF83AF68FF6").IsUnique();
+            entity.HasIndex(e => e.UserEmail, "UQ__Users__08638DF88F034DA6").IsUnique();
 
             entity.Property(e => e.UserId).HasColumnName("UserID");
             entity.Property(e => e.UserEmail)
@@ -269,7 +270,8 @@ public partial class PhotographyContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.UserImg)
                 .HasMaxLength(255)
-                .IsUnicode(false);
+                .IsUnicode(false)
+                .HasDefaultValueSql("('defult.png')");
             entity.Property(e => e.UserName)
                 .HasMaxLength(150)
                 .IsUnicode(false);
@@ -282,7 +284,7 @@ public partial class PhotographyContext : DbContext
 
             entity.HasOne(d => d.UserRole).WithMany(p => p.Users)
                 .HasForeignKey(d => d.UserRoleId)
-                .HasConstraintName("FK__Users__UserRoleI__4CA06362");
+                .HasConstraintName("FK__Users__UserRoleI__71D1E811");
         });
 
         OnModelCreatingPartial(modelBuilder);

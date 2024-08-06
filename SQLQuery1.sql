@@ -99,7 +99,7 @@ CREATE TABLE Testimonials (
 
 -- Creating PhotoCategories table
 CREATE TABLE PhotoCategories (
-    CategoryID INT PRIMARY KEY IDENTITY,
+    CategoryId INT PRIMARY KEY IDENTITY,
     CategoryName VARCHAR(50) NOT NULL,
 	CategoryPhoto VARCHAR(255) NOT NULL,
 );
@@ -107,7 +107,7 @@ CREATE TABLE PhotoCategories (
 -- Creating Photos table
 CREATE TABLE Photos (
     PhotoID INT PRIMARY KEY IDENTITY,
-    PhotoCategoryId INT NOT NULL FOREIGN KEY REFERENCES PhotoCategories(CategoryID) ,  
+    CategoryId INT NOT NULL FOREIGN KEY REFERENCES PhotoCategories(CategoryId) ,  
     PhotoURL VARCHAR(255) NOT NULL,
 	PhotoTitle VARCHAR(255) NOT NULL,
 	PhotoDesc VARCHAR(255) NOT NULL,
